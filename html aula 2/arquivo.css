@@ -1,0 +1,37 @@
+html{
+    background-color: whitesmoke;
+}
+
+h1{
+    color: blue;
+}
+
+#Java{
+    height: 200px;
+    width: 200px;
+    
+}
+#C{
+    height: 200px;
+    width: 200px;
+}
+#sql{
+    height: 200px;
+    width: 200px;
+}
+#php{
+    height: 200px;
+    width: 200px;
+}
+#js{
+    height: 200px;
+    width: 200px;
+}
+
+#links{
+    left: -300px;
+}
+
+p{
+    color: green;
+}
