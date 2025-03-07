@@ -1,0 +1,202 @@
+html{
+    background-color: lightgray;
+}
+
+h1{
+    color: blue;
+}
+
+#Java{
+    height: 200px;
+    width: 200px;
+    
+}
+#C{
+    height: 200px;
+    width: 200px;
+}
+#sql{
+    height: 200px;
+    width: 200px;
+}
+#php{
+    height: 200px;
+    width: 200px;
+}
+#js{
+    height: 200px;
+    width: 200px;
+}
+
+#links{
+    left: -300px;
+}
+
+#pindex{
+    color: green;
+}
+
+table{
+    border-style: solid;
+    color: black;
+    
+}
+
+td{
+    border-style: solid;
+}
+
+#botao{
+    display: block;
+    margin: auto;
+}
+
+a:hover{
+    color:green;
+}
+
+#header{
+    color: darkgreen;
+    background-color: bisque;
+    height: 200px;
+    width: 100%;
+    border: solid 3px blue;
+    text-align: center;
+    margin-top: 15px;
+}
+
+#inheader{
+    margin-top: 85px;
+}
+
+#Cplus{
+    display: flex;
+    height: 150px;
+    width: 150px;
+    margin-left: 10px;
+    margin-top: -100px;
+}
+
+#javinha{
+    display: flex;
+    height: 150px;
+    width: 150px;
+    margin-left: 91%;
+    margin-top: -154px;
+}
+
+#sub_header{
+    display: flex;
+    margin-top: -0px;
+    height: 80px;
+    width: 100%;
+    background-color:  lightskyblue;
+}
+
+#pcopy{
+    word-spacing: 60px;
+    color:  darkred;
+    display: flex;
+    margin: auto;
+}
+
+#intro{
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 20pt;
+}
+
+#img_algo{
+    height: 400px;
+    width: 300px;
+    display: flex;
+    margin-left: 200px;
+}
+
+#img_cbook{
+    height: 400px;
+    width: 300px;
+    display: flex;
+    margin: auto;
+    margin-top: -400px;
+}
+
+#java2{
+    height: 400px;
+    width: 300px;
+    display: flex;
+    margin-left: 1400px;
+    margin-top: -400px;
+}
+
+#feiyt{
+    margin-right: 200px;
+}
+
+#table_contato{
+    margin: auto;
+    border: dashed 3px red
+
+}
+
+#table_contato>tr, td{
+    border: 1px solid red;
+}
+
+#th{
+    color: red;
+    border: 1px solid red;
+}
+
+#site_consulta {
+    width: 900px;
+    background-color: yellow;
+    margin: auto;
+    padding: 15px;
+}
+
+#p_site_consulta {
+    margin-right: 73.9%;
+    margin-top: -10px;
+}
+
+#site_consulta ul {
+    text-align: left;
+}
+
+#site_consulta li a {
+    color: brown;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 120px;
+}
+
+
+#footer{
+    background-color: bisque;
+    height: 200px;
+    width: 100%;
+    text-align: center;
+    margin-top: 40px;
+    font-family: Comic;
+    font-size: 15pt;
+}
+
+#h3_footer{
+    display: flex;
+    margin-top: -130px;
+    text-align: center;
+    margin-left: 31%;
+    font-family: c;
+}
+
+#html{
+    height: 170px;
+    width:150px;
+    margin-right:1580px;
+}
+
+#css{
+    height: 170px;
+    width:130px;
+}
