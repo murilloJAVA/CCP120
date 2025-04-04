@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Campo de Futebol</title>
+  <link rel="stylesheet" href="animation.css">
+</head>
+<body>
+
+<canvas id="meuCanvas" width="600" height="400"></canvas>
+
+<script>
+  const canvas = document.getElementById('meuCanvas');
+  const ctx = canvas.getContext('2d');
+
+  const img = new Image();
+  img.src = 'ball.png'; // Pode trocar por outra imagem
+
+  const imgWidth = 30;
+  const imgHeight = 30;
+
+  // Posição inicial: centro do canvas
+  let imgX = canvas.width / 2 - imgWidth / 2;
+  let imgY = canvas.height / 2 - imgHeight / 2;
+
+  let mouseX = imgX + imgWidth / 2;
+  let mouseY = imgY + imgHeight / 2;
+
+  canvas.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouseX = e.clientX - rect.left;
+    mouseY = e.clientY - rect.top;
+    updatePosition();
+  });
+
+  function updatePosition() {
+    let newX = mouseX - imgWidth / 2;
+    let newY = mouseY - imgHeight / 2;
+
+    // Limites
+    newX = Math.max(0, Math.min(newX, canvas.width - imgWidth));
+    newY = Math.max(0, Math.min(newY, canvas.height - imgHeight));
+
+    imgX = newX;
+    imgY = newY;
+  }
+
+  // Desenha linha branca central
+  function desenharCampo() {
+    ctx.strokeStyle = 'white';
+    ctx.lineWidth = 2;
+
+    // Linha vertical central
+    ctx.beginPath();
+    ctx.moveTo(canvas.width / 2, 0);
+    ctx.lineTo(canvas.width / 2, canvas.height);
+    ctx.stroke();
+  }
+
+  function desenhar() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    desenharCampo(); // desenha o campo antes da imagem
+    ctx.drawImage(img, imgX, imgY, imgWidth, imgHeight);
+
+    requestAnimationFrame(desenhar);
+  }
+
+  img.onload = desenhar;
+</script>
+
+</body>
+</html>
+
