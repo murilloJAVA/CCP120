@@ -14,12 +14,11 @@
   const ctx = canvas.getContext('2d');
 
   const img = new Image();
-  img.src = 'ball.png'; // Pode trocar por outra imagem
+  img.src = 'ball.png'; 
 
   const imgWidth = 30;
   const imgHeight = 30;
 
-  // Posição inicial: centro do canvas
   let imgX = canvas.width / 2 - imgWidth / 2;
   let imgY = canvas.height / 2 - imgHeight / 2;
 
@@ -37,20 +36,16 @@
     let newX = mouseX - imgWidth / 2;
     let newY = mouseY - imgHeight / 2;
 
-    // Limites
     newX = Math.max(0, Math.min(newX, canvas.width - imgWidth));
     newY = Math.max(0, Math.min(newY, canvas.height - imgHeight));
 
     imgX = newX;
     imgY = newY;
   }
-
-  // Desenha linha branca central
   function desenharCampo() {
     ctx.strokeStyle = 'white';
     ctx.lineWidth = 2;
 
-    // Linha vertical central
     ctx.beginPath();
     ctx.moveTo(canvas.width / 2, 0);
     ctx.lineTo(canvas.width / 2, canvas.height);
@@ -60,7 +55,7 @@
   function desenhar() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    desenharCampo(); // desenha o campo antes da imagem
+    desenharCampo(); 
     ctx.drawImage(img, imgX, imgY, imgWidth, imgHeight);
 
     requestAnimationFrame(desenhar);
