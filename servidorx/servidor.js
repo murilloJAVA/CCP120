@@ -29,7 +29,7 @@ var data = requisicao.body.data;
 console.log(data);
 })
 
-app.get('/cadastro',function (requisicao, resposta){
+app.get('/cadastra',function (requisicao, resposta){
 var nome = requisicao.query.nome;
 var sobrenome = requisicao.query.sobrenome;
 var nascimento = requisicao.query.nascimento;
