@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <header>
+        <h1>Login</h1>
+    </header>
+
+    <nav>
+        <a href="./cadastro.html">Cadastro</a>
+    </nav>
+
+    <main>
+        
+
+        <form action="/login" method="GET">
+            <label for="nome">Nome:</label><br>
+            <input type="text" id="nome" name="nomeLogin" required><br><br>
+    
+            <label for="sobrenome">Sobrenome:</label><br>
+            <input type="text" id="sobrenome" name="sobrenomeLogin" required><br><br>
+    
+            <label for="nascimento">Data de Nascimento:</label><br>
+            <input type="date" id="nascimento" name="nascimentoLogin" required><br><br>
+    
+            <label for="estado-civil">Estado Civil:</label><br>
+            <select id="estado-civil" name="estado_civilLogin" required>
+                <option value="">Selecione...</option>
+                <option value="solteiro">Solteiro(a)</option>
+                <option value="casado">Casado(a)</option>
+                <option value="divorciado">Divorciado(a)</option>
+                <option value="viuvo">Viúvo(a)</option>
+            </select><br><br>
+    
+            <button type="submit">Enviar</button>
+        </form>
+
+
+    </main>
+</body>
+</html>

@@ -1,0 +1,49 @@
+/* Reset */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Geral */
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  /* Cabeçalho */
+  header {
+    text-align: center;
+    width: 100%;
+    background-color: #6a1b9a;
+    color: white;
+    font-size: 2rem;
+    padding: 1rem 0;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
+  }
+
+  nav {
+    background-color: #9c27b080;
+    padding: 0.5rem;
+    text-align: center;
+  }
+  
+  nav a {
+    color: #4a148c;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin: 0 10px;
+  }
+  
+  nav a:hover {
+    color: #6a1b9a;
+    text-deco
+  }
+
+  main {
+    margin: 30px auto auto auto;
+    text-align: center;
+  }

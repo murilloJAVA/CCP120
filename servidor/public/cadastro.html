@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="cadastro.css">
+</head>
+<body>
+    <header>
+        <h1>Cadastro</h1>
+    </header>
+
+    <main>
+        
+
+        <form action="/cadastra" method="POST">
+            <label for="nome">Nome:</label><br>
+            <input type="text" id="nome" name="nome" required><br><br>
+    
+            <label for="sobrenome">Sobrenome:</label><br>
+            <input type="text" id="sobrenome" name="sobrenome" required><br><br>
+    
+            <label for="nascimento">Data de Nascimento:</label><br>
+            <input type="date" id="nascimento" name="nascimento" required><br><br>
+    
+            <label for="estado-civil">Estado Civil:</label><br>
+            <select id="estado-civil" name="estado_civil" required>
+                <option value="">Selecione...</option>
+                <option value="solteiro">Solteiro(a)</option>
+                <option value="casado">Casado(a)</option>
+                <option value="divorciado">Divorciado(a)</option>
+                <option value="viuvo">Viúvo(a)</option>
+            </select><br><br>
+    
+            <button type="submit">Enviar</button>
+        </form>
+
+
+    </main>
+</body>
+</html>

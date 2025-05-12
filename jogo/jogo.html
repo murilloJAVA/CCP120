@@ -5,7 +5,7 @@
   <title>Jogo</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body class = "customize_jogo">
+<body class="customize_jogo">
   <h1>Desvie dos Cones</h1>
 
   <h2>Como Jogar:</h2>
@@ -16,9 +16,12 @@
   </ul>
 
   <button id="startButton">Iniciar Jogo</button>
-  <canvas id="gameCanvas" width="400" height="600"></canvas>
-  <button id="restartButton" style="display: none;">Reiniciar</button>
 
+  <!-- Container para centralizar canvas e botão -->
+  <div class="game-container">
+    <canvas id="gameCanvas" width="450" height="600"></canvas>
+    <button id="restartButton">Reiniciar</button>
+  </div>
 
   <a href="index.html" class="link_home">Home</a>
 
