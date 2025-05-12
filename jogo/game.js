@@ -1,33 +1,52 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
+const startButton = document.getElementById('startButton');
 
-// Imagens base64
+// Imagens
 const carroImg = new Image();
 carroImg.src = "img/carro.png";
 
 const coneImg = new Image();
 coneImg.src = "img/cone.png";
 
+const linhaChegadaImg = new Image();
+linhaChegadaImg.src = "img/chegada.jpg";
+
+// Estrada
 const estradaX = 55;
 const estradaWidth = canvas.width - 110;
 
-let carro = {
-  x: 170,
-  y: 500,
-  width: 60,
-  height: 100,
-  speed: 5
-};
-
+// Estado do jogo
+let carro = { x: 170, y: 500, width: 60, height: 100, speed: 5 };
 let cones = [];
 let coneSpeed = 2;
 let tempo = 0;
 let gameOver = false;
 let faixaY = 0;
-let pausado = false; // Nova variável de controle
+let pausado = false;
+let jogoIniciado = false;
+let linhaChegada = null;
+let venceu = false;
+let mostrarBotaoReiniciar = false;
+const botaoReiniciar = {
+  x: canvas.width / 2 - 75,
+  y: canvas.height / 2 + 30,
+  width: 150,
+  height: 40
+};
 
-// Controle de teclado
+// Inicia o jogo quando clica no botão
+startButton.addEventListener('click', () => {
+  jogoIniciado = true;
+  startButton.style.display = 'none';
+  atualizar();
+  setInterval(criarCone, 2000);
+});
+
+// Teclas
 document.addEventListener('keydown', e => {
+  if (!jogoIniciado) return;
+
   if (e.key === 'ArrowLeft' && !pausado && carro.x > estradaX) {
     carro.x -= carro.speed;
     if (carro.x < estradaX) carro.x = estradaX;
@@ -37,41 +56,42 @@ document.addEventListener('keydown', e => {
     if (carro.x > estradaX + estradaWidth - carro.width) carro.x = estradaX + estradaWidth - carro.width;
   }
 
-  // ESC pausa o jogo
   if (e.key === 'Escape') {
     pausado = true;
   }
 
-  // ENTER continua o jogo
   if (e.key === 'Enter') {
     if (pausado && !gameOver) {
       pausado = false;
-      atualizar(); // reinicia o loop
+      atualizar();
     }
   }
 });
 
-// Criação de cones apenas na faixa do asfalto
 function criarCone() {
+  if (!jogoIniciado || pausado || gameOver || venceu) return;
+
   const coneWidth = 65;
-  const coneX = Math.random() * (estradaWidth - coneWidth) + estradaX;
-  cones.push({ x: coneX, y: -60, width: coneWidth, height: 65 });
+  const quantidade = tempo > 3600 ? 2 : 1;
+
+  for (let i = 0; i < quantidade; i++) {
+    const coneX = Math.random() * (estradaWidth - coneWidth) + estradaX;
+    cones.push({ x: coneX, y: -60, width: coneWidth, height: 65 });
+  }
 }
 
-// Colisão com margem ajustada
 function colidiu(a, b) {
-  const margem = 15; 
+  const margem = 15;
   return a.x + margem < b.x + b.width - margem &&
          a.x + a.width - margem > b.x + margem &&
          a.y + margem < b.y + b.height - margem &&
          a.y + a.height - margem > b.y + margem;
 }
 
-// Função para desenhar a mensagem de "PAUSADO"
 function desenharPausado() {
-  ctx.fillStyle = "rgba(0, 0, 0, 0.5)"; // Fundo semitransparente
+  ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
+
   ctx.fillStyle = "white";
   ctx.font = "40px Arial";
   ctx.textAlign = "center";
@@ -79,23 +99,18 @@ function desenharPausado() {
   ctx.fillText("PAUSADO", canvas.width / 2, canvas.height / 2);
 }
 
-// Desenhar cenário
 function desenharCenario() {
-  // Grama
   ctx.fillStyle = "#228B22";
   ctx.fillRect(0, 0, 50, canvas.height);
   ctx.fillRect(canvas.width - 50, 0, 50, canvas.height);
 
-  // Asfalto
   ctx.fillStyle = "#111";
   ctx.fillRect(estradaX, 0, estradaWidth, canvas.height);
 
-  // Guias brancas
   ctx.fillStyle = "#fff";
   ctx.fillRect(estradaX, 0, 5, canvas.height);
   ctx.fillRect(estradaX + estradaWidth - 5, 0, 5, canvas.height);
 
-  // Faixa amarela tracejada
   ctx.strokeStyle = "#FFD700";
   ctx.lineWidth = 4;
   ctx.setLineDash([20, 20]);
@@ -106,12 +121,11 @@ function desenharCenario() {
   ctx.setLineDash([]);
 }
 
-// Loop do jogo
 function atualizar() {
-  if (gameOver || pausado) {
-    if (pausado) {
-      desenharPausado(); // Desenha a tela de pausa
-    }
+  if (!jogoIniciado || gameOver) return;
+
+  if (pausado) {
+    desenharPausado();
     return;
   }
 
@@ -120,10 +134,8 @@ function atualizar() {
 
   desenharCenario();
 
-  // Carro
   ctx.drawImage(carroImg, carro.x, carro.y, carro.width, carro.height);
 
-  // Cones
   for (let i = 0; i < cones.length; i++) {
     const c = cones[i];
     c.y += coneSpeed;
@@ -136,15 +148,66 @@ function atualizar() {
     }
   }
 
-  // Remover cones fora da tela
   cones = cones.filter(c => c.y < canvas.height);
 
-  // Dificuldade progressiva
   tempo++;
   if (tempo % 600 === 0) coneSpeed += 0.5;
+
+  if (tempo === 100 && !linhaChegada) {
+    linhaChegada = { y: -20, height: 10 };
+  }
+
+  if (linhaChegada) {
+    linhaChegada.y += coneSpeed;
+    ctx.drawImage(linhaChegadaImg, estradaX, linhaChegada.y, estradaWidth, 40);
+    linhaChegada.height = 30;
+
+    if (
+      carro.y < linhaChegada.y + linhaChegada.height &&
+      carro.y + carro.height > linhaChegada.y
+    ) {
+      venceu = true;
+    }
+  }
+
+  if (venceu) {
+    ctx.fillStyle = "rgba(0,0,0,0.7)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#00FF00";
+    ctx.font = "15px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText("Parabéns, você conseguiu atravessar todo percurso!", canvas.width / 2, canvas.height / 2);
+
+    ctx.fillStyle = "#333";
+    ctx.fillRect(botaoReiniciar.x, botaoReiniciar.y, botaoReiniciar.width, botaoReiniciar.height);
+
+    ctx.fillStyle = "#fff";
+    ctx.font = "20px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("Reiniciar", botaoReiniciar.x + botaoReiniciar.width / 2, botaoReiniciar.y + botaoReiniciar.height / 2);
+
+    mostrarBotaoReiniciar = true;
+    return;
+  }
 
   requestAnimationFrame(atualizar);
 }
 
-setInterval(criarCone, 2000);
-atualizar();
+canvas.addEventListener('click', function (e) {
+  if (!mostrarBotaoReiniciar) return;
+
+  const rect = canvas.getBoundingClientRect();
+  const clickX = e.clientX - rect.left;
+  const clickY = e.clientY - rect.top;
+
+  if (
+    clickX >= botaoReiniciar.x &&
+    clickX <= botaoReiniciar.x + botaoReiniciar.width &&
+    clickY >= botaoReiniciar.y &&
+    clickY <= botaoReiniciar.y + botaoReiniciar.height
+  ) {
+    window.location.reload();
+  }
+});

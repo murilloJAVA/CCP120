@@ -5,9 +5,8 @@
   <title>Jogo</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class = "customize_jogo">
   <h1>Desvie dos Cones</h1>
-  <canvas id="gameCanvas" width="400" height="600"></canvas>
 
   <h2>Como Jogar:</h2>
   <ul>
@@ -16,12 +15,12 @@
     <li>A velocidade aumenta a cada 10 segundos.</li>
   </ul>
 
-  <h2>Referências</h2>
-  <ul>
-    <li>Sprites simples criados com auxílio de ChatGPT em base64 (não baixados de terceiros).</li>
-    <li>Baseado em lógica própria com consultas à documentação da <a href="https://developer.mozilla.org/">MDN</a>.</li>
-    <li>ChatGPT foi utilizado para organização do código e estrutura. Código completamente compreendido pelo autor.</li>
-  </ul>
+  <button id="startButton">Iniciar Jogo</button>
+  <canvas id="gameCanvas" width="400" height="600"></canvas>
+  <button id="restartButton" style="display: none;">Reiniciar</button>
+
+
+  <a href="index.html" class="link_home">Home</a>
 
   <script src="game.js"></script>
 </body>

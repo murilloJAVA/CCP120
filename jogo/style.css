@@ -24,3 +24,52 @@ nav a {
   color: #0077cc;
 }
 
+.gif_carro {
+  width: 400px;
+  height: 400px;
+  text-align: center;
+  margin-top: 80px;
+}
+
+.div_index {
+  background-color: #2d2d2d;
+  color: white;
+}
+
+.info_dev {
+  border: 2px solid rgb(255, 255, 255);
+  text-align: center;
+  margin: auto;
+  color: white;
+  margin-top: 100px;
+  height: 350px;
+  width: 420px;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  margin-top: -10px;
+}
+
+.customize_jogo {
+  background-color: #2d2d2d;
+  color: white;
+}
+
+.link_home {
+  color: white;
+}
+
+.body_dev {
+  background-color: #000;
+  color: white;
+}
+
+.teclado {
+  width: 300px;
+  height: 200px;
+  margin-right: 50px;
+}
+
+.mouse {
+  width: 300px;
+  height: 200px;
+  
+}
