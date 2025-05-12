@@ -7,7 +7,7 @@
   
   /* Geral */
   body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     line-height: 1.6;
     background-color: #f4f4f4;
     color: #333;
@@ -15,33 +15,13 @@
   
   /* Cabeçalho */
   header {
+    margin: auto;
     text-align: center;
     width: 100%;
-    background-color: #6a1b9a;
-    color: white;
+    color: rgb(51, 25, 178);
     font-size: 2rem;
     padding: 1rem 0;
-    box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
-  }
-  
-  /* Navegação */
-  nav {
-    background-color: #9c27b080;
-    padding: 0.5rem;
-    text-align: center;
-  }
-  
-  nav a {
-    color: #4a148c;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.2rem;
-    margin: 0 10px;
-  }
-  
-  nav a:hover {
-    color: #6a1b9a;
-    text-decoration: underline;
+    
   }
   
   main {
@@ -57,6 +37,6 @@
 
   button{
     width: 100%;
-    background-color:purple;
+    background-color:green;
     color: white;
   }
