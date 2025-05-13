@@ -25,6 +25,9 @@ let pausado = false;
 let jogoIniciado = false;
 let linhaChegada = null;
 let venceu = false;
+let usandoNitro = false;
+let velocidadeOriginal = carro.speed;
+
 
 startButton.addEventListener('click', () => {
   jogoIniciado = true;
@@ -34,20 +37,56 @@ startButton.addEventListener('click', () => {
 });
 
 document.addEventListener('keydown', e => {
-  if (!jogoIniciado || gameOver || venceu) return;
+  // Prevenir scroll com setas
+  if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+    e.preventDefault();
+  }
 
-  if (e.key === 'ArrowLeft' && !pausado && carro.x > estradaX) {
-    carro.x -= carro.speed;
+  // Pausar com ESC
+  if (e.key === 'Escape' && jogoIniciado && !gameOver && !venceu) {
+    pausado = true;
+    return;
   }
-  if (e.key === 'ArrowRight' && !pausado && carro.x < estradaX + estradaWidth - carro.width) {
-    carro.x += carro.speed;
-  }
-  if (e.key === 'Escape') pausado = true;
-  if (e.key === 'Enter' && pausado) {
+
+  // Retomar com ENTER
+  if (e.key === 'Enter' && pausado && !gameOver && !venceu) {
     pausado = false;
     atualizar();
+    return;
+  }
+
+  if (!jogoIniciado || pausado || gameOver || venceu) return;
+
+  // Movimentos laterais e verticais (se não estiver "saltando")
+  if (e.key === 'ArrowLeft' && carro.x > estradaX) {
+    carro.x -= carro.speed;
+    if (carro.x < estradaX) carro.x = estradaX;
+  }
+
+  if (e.key === 'ArrowRight' && carro.x < estradaX + estradaWidth - carro.width) {
+    carro.x += carro.speed;
+    if (carro.x > estradaX + estradaWidth - carro.width) carro.x = estradaX + estradaWidth - carro.width;
+  }
+
+  if (e.key === 'ArrowUp' && carro.y > 0) {
+    carro.y -= carro.speed;
+    if (carro.y < 0) carro.y = 0;
+  }
+
+  if (e.key === 'ArrowDown' && carro.y < canvas.height - carro.height) {
+    carro.y += carro.speed;
+    if (carro.y > canvas.height - carro.height) carro.y = canvas.height - carro.height;
+  }
+
+  // Salto com espaço — apenas move para cima uma vez
+  if (e.code === 'Space') {
+    const salto = 100; // altura do salto
+    carro.y -= salto;
+    if (carro.y < 0) carro.y = 0;
   }
 });
+
+
 
 restartButton.addEventListener('click', () => {
   window.location.reload();
