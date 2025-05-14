@@ -15,9 +15,13 @@ linhaChegadaImg.src = "img/chegada.jpg";
 const estradaX = 55;
 const estradaWidth = canvas.width - 110;
 
+const fogoGif = new Image();
+fogoGif.src = "img/fogo_nitrow.gif";
+
+
 let carro = { x: 170, y: 500, width: 60, height: 100, speed: 5 };
 let cones = [];
-let coneSpeed = 2;
+let coneSpeed = 6;
 let tempo = 0;
 let gameOver = false;
 let faixaY = 0;
@@ -78,13 +82,16 @@ document.addEventListener('keydown', e => {
     if (carro.y > canvas.height - carro.height) carro.y = canvas.height - carro.height;
   }
 
-  // Salto com espaço — apenas move para cima uma vez
-  if (e.code === 'Space') {
-    const salto = 100; // altura do salto
-    carro.y -= salto;
-    if (carro.y < 0) carro.y = 0;
-  }
-});
+ if (e.code === 'Space' && !usandoNitro) {
+  usandoNitro = true;
+  const velocidadeAntesDoNitro = coneSpeed;
+  coneSpeed += 6;
+
+  setTimeout(() => {
+    coneSpeed = velocidadeAntesDoNitro;
+    usandoNitro = false;
+  }, 2000);
+}});
 
 
 
@@ -158,7 +165,17 @@ function atualizar() {
   if (faixaY >= 40) faixaY = 0;
 
   desenharCenario();
-  ctx.drawImage(carroImg, carro.x, carro.y, carro.width, carro.height);
+  // Se estiver com nitro, desenha o fogo atrás do carro
+if (usandoNitro) {
+  const fogoWidth = 60;
+  const fogoHeight = 60;
+  const fogoX = carro.x + carro.width / 2 - fogoWidth / 2;
+  const fogoY = carro.y + carro.height - fogoHeight + 10;
+  ctx.drawImage(fogoGif, fogoX, fogoY, fogoWidth, fogoHeight);
+}
+
+ctx.drawImage(carroImg, carro.x, carro.y, carro.width, carro.height);
+
 
   for (let i = 0; i < cones.length; i++) {
     const c = cones[i];
