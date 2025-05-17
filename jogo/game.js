@@ -82,16 +82,19 @@ document.addEventListener('keydown', e => {
     if (carro.y > canvas.height - carro.height) carro.y = canvas.height - carro.height;
   }
 
- if (e.code === 'Space' && !usandoNitro) {
+ if (e.code === 'Space') {
+  e.preventDefault(); // Impede o scroll da página
   usandoNitro = true;
-  const velocidadeAntesDoNitro = coneSpeed;
-  coneSpeed += 6;
 
+  // Acelera temporariamente
+  coneSpeed += 5;
   setTimeout(() => {
-    coneSpeed = velocidadeAntesDoNitro;
+    coneSpeed -= 5;
     usandoNitro = false;
-  }, 2000);
-}});
+  }, 2000); // 2 segundos de sprint
+}
+
+});
 
 
 
