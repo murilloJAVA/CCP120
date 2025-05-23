@@ -1,8 +1,10 @@
+// Referência ao canvas e botões
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const startButton = document.getElementById('startButton');
 const restartButton = document.getElementById('restartButton');
 
+// Carrega imagens
 const carroImg = new Image();
 carroImg.src = "img/carro.png";
 
@@ -12,13 +14,14 @@ coneImg.src = "img/cone.png";
 const linhaChegadaImg = new Image();
 linhaChegadaImg.src = "img/chegada.jpg";
 
-const estradaX = 55;
-const estradaWidth = canvas.width - 110;
-
 const fogoGif = new Image();
 fogoGif.src = "img/fogo_nitrow.gif";
 
+// Define a área da estrada
+const estradaX = 55;
+const estradaWidth = canvas.width - 110;
 
+// Estado inicial do jogo
 let carro = { x: 170, y: 500, width: 60, height: 100, speed: 5 };
 let cones = [];
 let coneSpeed = 6;
@@ -32,27 +35,27 @@ let venceu = false;
 let usandoNitro = false;
 let velocidadeOriginal = carro.speed;
 
-
+// Inicia o jogo
 startButton.addEventListener('click', () => {
   jogoIniciado = true;
   startButton.style.display = 'none';
   atualizar();
-  setInterval(criarCone, 2000);
+  setInterval(criarCone, 2000); // Cria cones a cada 2 segundos
 });
 
+// Controles do teclado
 document.addEventListener('keydown', e => {
-  // Prevenir scroll com setas
   if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
-    e.preventDefault();
+    e.preventDefault(); // Impede scroll
   }
 
-  // Pausar com ESC
+  // Pausa com ESC
   if (e.key === 'Escape' && jogoIniciado && !gameOver && !venceu) {
     pausado = true;
     return;
   }
 
-  // Retomar com ENTER
+  // Retoma com ENTER
   if (e.key === 'Enter' && pausado && !gameOver && !venceu) {
     pausado = false;
     atualizar();
@@ -61,7 +64,7 @@ document.addEventListener('keydown', e => {
 
   if (!jogoIniciado || pausado || gameOver || venceu) return;
 
-  // Movimentos laterais e verticais (se não estiver "saltando")
+  // Movimento do carro
   if (e.key === 'ArrowLeft' && carro.x > estradaX) {
     carro.x -= carro.speed;
     if (carro.x < estradaX) carro.x = estradaX;
@@ -82,32 +85,28 @@ document.addEventListener('keydown', e => {
     if (carro.y > canvas.height - carro.height) carro.y = canvas.height - carro.height;
   }
 
- if (e.code === 'Space') {
-  e.preventDefault(); // Impede o scroll da página
-  usandoNitro = true;
-
-  // Acelera temporariamente
-  coneSpeed += 5;
-  setTimeout(() => {
-    coneSpeed -= 5;
-    usandoNitro = false;
-  }, 2000); // 2 segundos de sprint
-}
-
+  // Ativa o nitro (tecla espaço)
+  if (e.code === 'Space') {
+    e.preventDefault();
+    usandoNitro = true;
+    coneSpeed += 5;
+    setTimeout(() => {
+      coneSpeed -= 5;
+      usandoNitro = false;
+    }, 2000);
+  }
 });
 
-
-
+// Reinicia o jogo
 restartButton.addEventListener('click', () => {
   window.location.reload();
 });
 
+// Gera cones com dificuldade progressiva
 function criarCone() {
   if (!jogoIniciado || pausado || gameOver || venceu) return;
 
   const coneWidth = 65;
-
-  // Mais cones com o tempo
   let quantidade = 1;
   if (tempo > 600) quantidade = 2;
   if (tempo > 1200) quantidade = 3;
@@ -119,7 +118,7 @@ function criarCone() {
   }
 }
 
-
+// Detecta colisões entre objetos
 function colidiu(a, b) {
   const margem = 15;
   return a.x + margem < b.x + b.width - margem &&
@@ -128,6 +127,7 @@ function colidiu(a, b) {
          a.y + a.height - margem > b.y + margem;
 }
 
+// Desenha tela de pausa
 function desenharPausado() {
   ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -137,16 +137,17 @@ function desenharPausado() {
   ctx.fillText("PAUSADO", canvas.width / 2, canvas.height / 2);
 }
 
+// Desenha a estrada e faixa central
 function desenharCenario() {
-  ctx.fillStyle = "#228B22";
+  ctx.fillStyle = "#228B22"; // grama
   ctx.fillRect(0, 0, 50, canvas.height);
   ctx.fillRect(canvas.width - 50, 0, 50, canvas.height);
-  ctx.fillStyle = "#111";
+  ctx.fillStyle = "#111"; // asfalto
   ctx.fillRect(estradaX, 0, estradaWidth, canvas.height);
-  ctx.fillStyle = "#fff";
+  ctx.fillStyle = "#fff"; // bordas da pista
   ctx.fillRect(estradaX, 0, 5, canvas.height);
   ctx.fillRect(estradaX + estradaWidth - 5, 0, 5, canvas.height);
-  ctx.strokeStyle = "#FFD700";
+  ctx.strokeStyle = "#FFD700"; // faixa do meio
   ctx.lineWidth = 4;
   ctx.setLineDash([20, 20]);
   ctx.beginPath();
@@ -156,6 +157,7 @@ function desenharCenario() {
   ctx.setLineDash([]);
 }
 
+// Lógica principal do jogo
 function atualizar() {
   if (!jogoIniciado || gameOver || venceu) return;
 
@@ -164,26 +166,30 @@ function atualizar() {
     return;
   }
 
+  // Anima a faixa central
   faixaY += coneSpeed;
   if (faixaY >= 40) faixaY = 0;
 
   desenharCenario();
-  // Se estiver com nitro, desenha o fogo atrás do carro
-if (usandoNitro) {
-  const fogoWidth = 60;
-  const fogoHeight = 60;
-  const fogoX = carro.x + carro.width / 2 - fogoWidth / 2;
-  const fogoY = carro.y + carro.height - fogoHeight + 10;
-  ctx.drawImage(fogoGif, fogoX, fogoY, fogoWidth, fogoHeight);
-}
 
-ctx.drawImage(carroImg, carro.x, carro.y, carro.width, carro.height);
+  // Desenha fogo se estiver usando nitro
+  if (usandoNitro) {
+    const fogoWidth = 60;
+    const fogoHeight = 60;
+    const fogoX = carro.x + carro.width / 2 - fogoWidth / 2;
+    const fogoY = carro.y + carro.height - fogoHeight + 10;
+    ctx.drawImage(fogoGif, fogoX, fogoY, fogoWidth, fogoHeight);
+  }
 
+  ctx.drawImage(carroImg, carro.x, carro.y, carro.width, carro.height);
 
+  // Move e desenha cones
   for (let i = 0; i < cones.length; i++) {
     const c = cones[i];
     c.y += coneSpeed;
     ctx.drawImage(coneImg, c.x, c.y, c.width, c.height);
+
+    // Verifica colisão
     if (colidiu(carro, c)) {
       gameOver = true;
       mostrarGameOver();
@@ -191,10 +197,13 @@ ctx.drawImage(carroImg, carro.x, carro.y, carro.width, carro.height);
     }
   }
 
+  // Remove cones fora da tela
   cones = cones.filter(c => c.y < canvas.height);
-  tempo++;
-  if (tempo % 600 === 0) coneSpeed += 0.5;
 
+  tempo++;
+  if (tempo % 600 === 0) coneSpeed += 0.5; // Aumenta dificuldade
+
+  // Mostra linha de chegada
   if (tempo === 7000 && !linhaChegada) {
     linhaChegada = { y: -20, height: 10 };
   }
@@ -214,9 +223,11 @@ ctx.drawImage(carroImg, carro.x, carro.y, carro.width, carro.height);
     }
   }
 
+  // Próximo frame
   requestAnimationFrame(atualizar);
 }
 
+// Tela de Game Over
 function mostrarGameOver() {
   ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -227,6 +238,7 @@ function mostrarGameOver() {
   restartButton.style.display = 'block';
 }
 
+// Tela de vitória
 function mostrarVitoria() {
   ctx.fillStyle = "rgba(0,0,0,0.7)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
